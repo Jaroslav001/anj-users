@@ -1,6 +1,14 @@
 <?php
-if (!defined('ABSPATH')) exit;
+// Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit;
+}
 
+/**
+ * Register the CPT: user_cpt
+ * Public URL: /users/{slug}
+ * REST: /wp-json/wp/v2/user-profiles (avoid conflict with core /wp/v2/users)
+ */
 if (!function_exists('anj_users_register_user_cpt')) {
     function anj_users_register_user_cpt()
     {
@@ -26,9 +34,13 @@ if (!function_exists('anj_users_register_user_cpt')) {
             'publicly_queryable' => true,
             'show_ui'            => true,
             'show_in_menu'       => true,
-            'show_in_rest'       => true,           // enable Gutenberg/blocks/API
-            'rest_base'          => 'users',        // optional, nicer REST URL
-            'has_archive'        => 'users',        // /users
+
+            // REST support & safe base
+            'show_in_rest'       => true,
+            'rest_namespace'     => 'wp/v2',
+            'rest_base'          => 'user-profiles', // DO NOT use "users" (conflicts with core)
+
+            'has_archive'        => 'users',   // /users
             'hierarchical'       => false,
             'supports'           => ['title', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'revisions'],
             'rewrite'            => [
@@ -37,13 +49,10 @@ if (!function_exists('anj_users_register_user_cpt')) {
                 'feeds'      => false,
                 'pages'      => true,
             ],
-            'query_var'          => true,           // helpful for debugging (?user_cpt=foo)
-            'exclude_from_search' => false,
             'capability_type'    => 'post',
             'map_meta_cap'       => true,
             'menu_position'      => 21,
             'menu_icon'          => 'dashicons-admin-users',
-            'show_in_nav_menus'  => true,
         ]);
     }
 }
