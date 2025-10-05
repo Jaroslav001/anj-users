@@ -1,0 +1,14 @@
+/* anj-users-single.css
+   Styles specific to single user page. */
+.anj-user-single { max-width: 880px; }
+.anj-user-header { display:grid; grid-template-columns: 128px 1fr; gap: 1.25rem; align-items:center; margin: 1rem 0 1.25rem; }
+.anj-user-avatar--lg { width:128px; height:128px; border-radius:50%; overflow:hidden; background:#f2f2f2; }
+.anj-user-name { margin:0; font-size:1.8rem; }
+.anj-user-username { color:#666; margin-top:.25rem; }
+.anj-user-roles { margin-top:.35rem; display:flex; gap:.4rem; flex-wrap:wrap; }
+.anj-user-registered { color:#666; margin-top:.25rem; }
+.anj-user-content { margin: 1rem 0 2rem; }
+.anj-user-hero img { border-radius: var(--anj-radius); }
+.anj-user-recent { margin-top: 2rem; }
+.anj-user-recent-list { margin: .5rem 0 0 1rem; }
+.anj-user-recent-list li { margin: .25rem 0; }

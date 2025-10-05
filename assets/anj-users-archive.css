@@ -1,0 +1,15 @@
+/* anj-users-archive.css
+   Styles specific to /users archive cards and grid. */
+.anj-users-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.1rem; }
+.anj-user-card { border:1px solid rgba(0,0,0,.08); border-radius: var(--anj-radius); background:#fff; transition: box-shadow .15s ease, transform .05s ease; }
+.anj-user-card:hover { box-shadow: 0 6px 22px rgba(0,0,0,.08); transform: translateY(-1px); }
+.anj-user-link { display:grid; grid-template-columns: 84px 1fr; gap:1rem; padding:1rem; text-decoration:none; color:inherit; }
+.anj-user-avatar { width:84px; height:84px; border-radius:50%; overflow:hidden; background:#f3f4f6; display:flex; align-items:center; justify-content:center; }
+.anj-avatar-ph { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#eee,#f7f7f7); display:inline-block; }
+.anj-user-title { margin:0; font-size:1.15rem; line-height:1.2; }
+.anj-user-username { color:#666; font-size:.95rem; margin-top:.15rem; }
+.anj-user-roles { margin-top:.35rem; display:flex; gap:.4rem; flex-wrap:wrap; }
+.anj-user-bio { margin:.55rem 0 0; color:#444; min-height: 1.2em; }
+.anj-user-view { display:inline-block; margin-top:.65rem; font-size:.9rem; }
+.anj-users-pagination { margin: 1.5rem 0; }
+.anj-users-empty { padding: 2rem 0; color:#666; }

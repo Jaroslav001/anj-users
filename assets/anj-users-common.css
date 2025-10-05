@@ -1,0 +1,10 @@
+/* anj-users-common.css
+   Base primitives used on both archive and single user pages.
+   Keep this minimal: spacing, typography tweaks, simple utilities. */
+:root { --anj-gap: 1rem; --anj-radius: 12px; }
+.anj-users-archive, .anj-user-single { margin: 0 auto; padding: 1rem; }
+.anj-users-header { display:flex; gap:var(--anj-gap); align-items:center; justify-content:space-between; margin:2rem 0 1rem; }
+.anj-users-search input[type="search"] { min-width: 260px; padding:.5rem .75rem; }
+.anj-users-search button { padding:.5rem .75rem; }
+.anj-role { display:inline-block; font-size:.75rem; background:#f5f5f7; border:1px solid #e5e5ea; padding:.15rem .5rem; border-radius:999px; }
+.anj-back-link { text-decoration:none; }
