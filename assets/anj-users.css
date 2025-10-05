@@ -1,0 +1,20 @@
+/* Minimal, theme-agnostic styles for /users */
+.anj-users-header { display:flex; gap:1rem; align-items:center; justify-content:space-between; margin:2rem 0 1rem; }
+.anj-users-search input[type="search"] { min-width: 240px; }
+
+.anj-users-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.anj-user-card { border:1px solid rgba(0,0,0,.08); padding:1rem; border-radius:10px; background: #fff; }
+.anj-user-link { text-decoration:none; color:inherit; display:block; }
+.anj-user-thumb { width:100%; aspect-ratio:1/1; overflow:hidden; border-radius:8px; background:#f2f2f2; display:flex; align-items:center; justify-content:center; }
+.anj-user-thumb img { width:100%; height:100%; object-fit:cover; }
+.anj-user-thumb--ph { width:100%; height:100%; background: repeating-linear-gradient(45deg,#eee,#eee 10px,#f8f8f8 10px,#f8f8f8 20px); border-radius:8px; }
+
+.anj-user-title { margin:.75rem 0 .25rem; font-size:1.1rem; }
+.anj-user-excerpt { color:#555; font-size:.95rem; }
+
+.anj-users-pagination { margin: 1.5rem 0; }
+.anj-users-empty { padding: 2rem 0; color:#666; }
+
+.anj-user-single .anj-user-hero img { border-radius: 12px; }
+.anj-user-content { margin: 1rem 0 2rem; }
+.anj-back-link { text-decoration:none; }
