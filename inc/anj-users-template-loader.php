@@ -1,38 +1,49 @@
 <?php
 /**
- * ANJ Users — Template Loader (drop-in)
- *
- * Purpose: Force WordPress to use the plugin's templates for the 'user_cpt' archive and single views.
- * Place this file in your plugin and include it from your main plugin file OR drop it into mu-plugins.
+ * inc/anj-users-template-loader.php (fixed)
+ * Forces plugin templates for 'user_cpt' archive and single.
  */
 if (!defined('ABSPATH')) { exit; }
 
-// Resolve plugin directory even if constants differ
-if (defined('ANJ_USERS_PATH')) {
-    $anj_users_base = rtrim(ANJ_USERS_PATH, '/\') . '/';
-} elseif (defined('ANJ_USERS_PLUGIN_DIR')) {
-    $anj_users_base = rtrim(ANJ_USERS_PLUGIN_DIR, '/\') . '/';
-} else {
-    // fallback: current file's directory
-    $anj_users_base = trailingslashit( dirname(__FILE__) );
-}
+// Resolve plugin base path
+$anj_users_base = trailingslashit( defined('ANJ_USERS_PATH') ? ANJ_USERS_PATH : dirname(__DIR__) );
 
-add_filter('single_template', function ($template) use ($anj_users_base) {
-    if (is_singular('user_cpt')) {
-        $plugin_tpl = $anj_users_base . 'templates/single-user_cpt.php';
-        if (file_exists($plugin_tpl)) {
-            return $plugin_tpl;
-        }
+// Helper to resolve our template file if present
+$anj_users_template = function(string $type, string $fallback) use ($anj_users_base) : string {
+    $map = [
+        'archive' => $anj_users_base . 'templates/archive-user_cpt.php',
+        'single'  => $anj_users_base . 'templates/single-user_cpt.php',
+    ];
+    if (isset($map[$type]) && file_exists($map[$type])) {
+        return $map[$type];
     }
-    return $template;
-}, 20);
+    return $fallback;
+};
 
-add_filter('archive_template', function ($template) use ($anj_users_base) {
+// High-priority filters so we win over theme filters
+add_filter('archive_template', function ($template) use ($anj_users_template) {
     if (is_post_type_archive('user_cpt')) {
-        $plugin_tpl = $anj_users_base . 'templates/archive-user_cpt.php';
-        if (file_exists($plugin_tpl)) {
-            return $plugin_tpl;
-        }
+        return $anj_users_template('archive', $template);
     }
     return $template;
-}, 20);
+}, 999);
+
+add_filter('single_template', function ($template) use ($anj_users_template) {
+    if (is_singular('user_cpt')) {
+        return $anj_users_template('single', $template);
+    }
+    return $template;
+}, 999);
+
+// Final safety net
+add_filter('template_include', function ($template) use ($anj_users_template) {
+    if (is_post_type_archive('user_cpt')) {
+        $t = $anj_users_template('archive', $template);
+        if ($t !== $template) return $t;
+    }
+    if (is_singular('user_cpt')) {
+        $t = $anj_users_template('single', $template);
+        if ($t !== $template) return $t;
+    }
+    return $template;
+}, 999);
