@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Single template for a User CPT — Avatar strategy:
+ * Single template for a User CPT — with Drive button
+ * Avatar strategy:
  * 1) Use CPT featured image if set
  * 2) Else use native WP user avatar
  */
@@ -17,6 +18,7 @@ get_header();
     $display   = $user ? $user->display_name : get_the_title();
     $nicename  = $user ? $user->user_nicename : '';
     $roles     = $user ? (array) $user->roles : [];
+    $drive_url = trailingslashit(get_permalink()) . 'drive/';
     ?>
     <article id="post-<?php the_ID(); ?>" <?php post_class('anj-user'); ?>>
       <header class="anj-user-header">
@@ -29,17 +31,22 @@ get_header();
           }
           ?>
         </div>
-        <h1 class="anj-user-name"><?php echo esc_html($display); ?></h1>
-        <?php if ($nicename): ?>
-          <div class="anj-user-username">@<?php echo esc_html($nicename); ?></div>
-        <?php endif; ?>
-        <?php if (!empty($roles)): ?>
-          <div class="anj-user-roles">
-            <?php foreach ($roles as $r): ?>
-              <span class="anj-role"><?php echo esc_html(ucfirst(str_replace('_', ' ', $r))); ?></span>
-            <?php endforeach; ?>
+        <div class="anj-user-heading">
+          <h1 class="anj-user-name"><?php echo esc_html($display); ?></h1>
+          <?php if ($nicename): ?>
+            <div class="anj-user-username">@<?php echo esc_html($nicename); ?></div>
+          <?php endif; ?>
+          <?php if (!empty($roles)): ?>
+            <div class="anj-user-roles">
+              <?php foreach ($roles as $r): ?>
+                <span class="anj-role"><?php echo esc_html(ucfirst(str_replace('_', ' ', $r))); ?></span>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+          <div class="anj-user-actions">
+            <a class="anj-drive-button" href="<?php echo esc_url($drive_url); ?>"><?php esc_html_e('Drive', 'anj-users'); ?></a>
           </div>
-        <?php endif; ?>
+        </div>
       </header>
 
       <div class="anj-user-content">

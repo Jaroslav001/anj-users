@@ -1,14 +1,24 @@
-/* anj-users-single.css
-   Styles specific to single user page. */
-.anj-user-single { max-width: 880px; }
-.anj-user-header { display:grid; grid-template-columns: 128px 1fr; gap: 1.25rem; align-items:center; margin: 1rem 0 1.25rem; }
-.anj-user-avatar--lg { width:128px; height:128px; border-radius:50%; overflow:hidden; background:#f2f2f2; }
-.anj-user-name { margin:0; font-size:1.8rem; }
-.anj-user-username { color:#666; margin-top:.25rem; }
-.anj-user-roles { margin-top:.35rem; display:flex; gap:.4rem; flex-wrap:wrap; }
-.anj-user-registered { color:#666; margin-top:.25rem; }
-.anj-user-content { margin: 1rem 0 2rem; }
-.anj-user-hero img { border-radius: var(--anj-radius); }
-.anj-user-recent { margin-top: 2rem; }
-.anj-user-recent-list { margin: .5rem 0 0 1rem; }
-.anj-user-recent-list li { margin: .25rem 0; }
+/* Single page small enhancement: Drive button */
+.anj-user-heading {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.anj-user-actions {
+  margin-top: .5rem;
+}
+
+.anj-drive-button {
+  display: inline-block;
+  padding: .5rem .85rem;
+  border-radius: 999px;
+  border: 1px solid #e5e5ea;
+  background: #f7f7f9;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.anj-drive-button:hover {
+  background: #f1f1f4;
+}
