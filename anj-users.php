@@ -19,6 +19,8 @@ if (!defined('ANJ_USERS_URL'))      define('ANJ_USERS_URL', plugin_dir_url(__FIL
 // Modules
 require_once ANJ_USERS_PATH . 'inc/cpt/user-cpt.php';
 require_once ANJ_USERS_PATH . 'inc/sync/user-sync.php';
+require_once ANJ_USERS_PATH . 'inc/permissions/permissions.php';
+require_once ANJ_USERS_PATH . 'inc/admin/permissions-metabox.php';
 require_once ANJ_USERS_PATH . 'inc/anj-users-template-loader.php';
 require_once ANJ_USERS_PATH . 'inc/users-access-guard.php';
 if (file_exists(ANJ_USERS_PATH . 'inc/anj-users-trace.php')) {
