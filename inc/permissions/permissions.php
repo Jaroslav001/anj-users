@@ -38,6 +38,32 @@ function anj_permissions_role_map(): array
 /**
  * Role precedence: higher wins for baseline.
  */
+
+
+/**
+ * Full permission vocabulary.
+ * These are the permissions that can be toggled per user in wp-admin.
+ * Keep this list in sync with features that consume permissions (e.g., Drive).
+ */
+function anj_permissions_vocabulary(): array
+{
+    return [
+        // Global
+        'drive.modify.any',
+
+        // School drives
+        'drive.school.modify.all',
+        'drive.school.modify.own',
+
+        // Page drives
+        'drive.page.modify.all',
+        'drive.page.modify.own',
+
+        // Personal user drives
+        'drive.user.modify.self',
+    ];
+}
+
 function anj_permissions_role_precedence(): array
 {
     return [
@@ -156,11 +182,21 @@ function anj_permissions_explain(int $user_id): array
  */
 function anj_permissions_known_keys(): array
 {
-    $map = anj_permissions_role_map();
     $keys = [];
-    foreach ($map as $role => $perms) {
-        foreach ((array)$perms as $p) $keys[] = (string)$p;
+
+    // 1) Vocabulary (everything we support in UI)
+    if (function_exists('anj_permissions_vocabulary')) {
+        $keys = array_merge($keys, anj_permissions_vocabulary());
     }
+
+    // 2) Baseline permissions from roles
+    $map = anj_permissions_role_map();
+    foreach ($map as $role => $perms) {
+        foreach ((array)$perms as $p) {
+            $keys[] = (string)$p;
+        }
+    }
+
     $keys = anj_permissions_normalize($keys);
     sort($keys);
     return $keys;
