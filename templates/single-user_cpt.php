@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Single template for a User CPT — with Drive button
+ * Single template for a User CPT
  * Avatar strategy:
  * 1) Use CPT featured image if set
  * 2) Else use native WP user avatar
@@ -18,7 +18,6 @@ get_header();
     $display   = $user ? $user->display_name : get_the_title();
     $nicename  = $user ? $user->user_nicename : '';
     $roles     = $user ? (array) $user->roles : [];
-    $drive_url = trailingslashit(get_permalink()) . 'drive/';
     ?>
     <article id="post-<?php the_ID(); ?>" <?php post_class('anj-user'); ?>>
       <header class="anj-user-header">
@@ -43,9 +42,6 @@ get_header();
               <?php endforeach; ?>
             </div>
           <?php endif; ?>
-          <div class="anj-user-actions">
-            <a class="anj-drive-button" href="<?php echo esc_url($drive_url); ?>"><?php esc_html_e('Drive', 'anj-users'); ?></a>
-          </div>
         </div>
       </header>
 

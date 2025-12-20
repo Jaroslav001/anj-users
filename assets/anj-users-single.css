@@ -1,24 +1,6 @@
-/* Single page small enhancement: Drive button */
+/* Single page small enhancement */
 .anj-user-heading {
   display: flex;
   flex-direction: column;
   gap: .35rem;
-}
-
-.anj-user-actions {
-  margin-top: .5rem;
-}
-
-.anj-drive-button {
-  display: inline-block;
-  padding: .5rem .85rem;
-  border-radius: 999px;
-  border: 1px solid #e5e5ea;
-  background: #f7f7f9;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.anj-drive-button:hover {
-  background: #f1f1f4;
 }

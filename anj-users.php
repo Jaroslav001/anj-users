@@ -3,7 +3,7 @@
 /**
  * Plugin Name: ANJ Users (User ⇄ CPT Sync)
  * Description: Registers a 'user_cpt' post type under /users/{slug} and keeps it in sync with WordPress users. Backfills existing users on activation.
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author: You
  * License: GPL-2.0+
  */
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Constants
-if (!defined('ANJ_USERS_VERSION'))  define('ANJ_USERS_VERSION', '1.0.4');
+if (!defined('ANJ_USERS_VERSION'))  define('ANJ_USERS_VERSION', '1.0.5');
 if (!defined('ANJ_USERS_PATH'))     define('ANJ_USERS_PATH', plugin_dir_path(__FILE__));
 if (!defined('ANJ_USERS_URL'))      define('ANJ_USERS_URL', plugin_dir_url(__FILE__));
 
