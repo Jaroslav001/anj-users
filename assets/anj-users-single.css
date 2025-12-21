@@ -1,6 +1,10 @@
-/* Single page small enhancement */
+/* Single page small enhancements */
 .anj-user-heading {
   display: flex;
   flex-direction: column;
   gap: .35rem;
+}
+
+.anj-user-actions {
+  margin-top: .5rem;
 }

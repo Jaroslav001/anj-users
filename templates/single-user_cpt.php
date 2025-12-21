@@ -8,6 +8,21 @@
  */
 defined('ABSPATH') || exit;
 get_header();
+
+// If the Drive endpoint is present, render only the content.
+// The Drive plugin replaces the content on /drive, so printing only the
+// content here prevents the profile layout from appearing above the drive.
+if (get_query_var('drive', null) !== null) {
+?>
+  <main id="primary" class="anj-user-drive">
+    <?php while (have_posts()) : the_post(); ?>
+      <?php the_content(); ?>
+    <?php endwhile; ?>
+  </main>
+<?php
+  get_footer();
+  return;
+}
 ?>
 <main id="primary" class="anj-user-single">
   <?php while (have_posts()) : the_post(); ?>
@@ -42,6 +57,7 @@ get_header();
               <?php endforeach; ?>
             </div>
           <?php endif; ?>
+          <div class="anj-user-actions"></div>
         </div>
       </header>
 
