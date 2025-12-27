@@ -18,9 +18,12 @@ if (!defined('ABSPATH')) {
 /**
  * Admin UI: uncheck defaults on Users → Add New.
  */
-add_action('admin_enqueue_scripts', function ($hook) {
-	// Only the "Add New User" screen.
-	if ($hook !== 'user-new.php') {
+$anj_users_enqueue_new_user_defaults = function ($hook) {
+	// "user-new.php" is the usual hook suffix, but use screen id as a fallback.
+	$screen = function_exists('get_current_screen') ? get_current_screen() : null;
+	$screen_id = $screen && isset($screen->id) ? $screen->id : '';
+
+	if ($hook !== 'user-new.php' && $screen_id !== 'user-new') {
 		return;
 	}
 
@@ -31,7 +34,10 @@ add_action('admin_enqueue_scripts', function ($hook) {
 		ANJ_USERS_VERSION,
 		true
 	);
-});
+};
+
+add_action('admin_enqueue_scripts', $anj_users_enqueue_new_user_defaults);
+add_action('network_admin_enqueue_scripts', $anj_users_enqueue_new_user_defaults);
 
 /**
  * Data level: default toolbar OFF for new users.
