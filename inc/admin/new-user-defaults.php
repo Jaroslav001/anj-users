@@ -1,60 +1,84 @@
 <?php
 
+/**
+ * New user defaults (wp-admin > Users > Add New).
+ *
+ * Goal: ensure the front-end WP toolbar (admin bar) is disabled by default
+ * for newly created users.
+ */
+
 if (!defined('ABSPATH')) {
 	exit;
 }
 
 /**
- * New user defaults
+ * Force the "Show Toolbar when viewing site" preference OFF for newly created users.
  *
- * Goals:
- * 1) In wp-admin → Users → Add New (user-new.php), default BOTH checkboxes to unchecked:
- *    - "Send the new user an email about their account"
- *    - "Show Toolbar when viewing site"
- * 2) Ensure the toolbar preference is OFF by default at the data level,
- *    while still allowing it to be enabled later per user.
+ * Why this hook:
+ * - `user_register` can run before wp-admin finishes processing all user options.
+ * - `edit_user_created_user` fires after the admin "Add New User" flow completes.
+ *
+ * @param int|WP_Error $user_id
+ * @param string       $notify
  */
-
-/**
- * Admin UI: uncheck defaults on Users → Add New.
- */
-$anj_users_enqueue_new_user_defaults = function ($hook) {
-	// "user-new.php" is the usual hook suffix, but use screen id as a fallback.
-	$screen = function_exists('get_current_screen') ? get_current_screen() : null;
-	$screen_id = $screen && isset($screen->id) ? $screen->id : '';
-
-	if ($hook !== 'user-new.php' && $screen_id !== 'user-new') {
+function anj_users_force_toolbar_off_for_new_user($user_id, $notify = '')
+{
+	if (is_wp_error($user_id)) {
 		return;
 	}
 
-	wp_enqueue_script(
-		'anj-users-new-user-defaults',
-		ANJ_USERS_URL . 'assets/admin/anj-users-new-user-defaults.js',
-		[],
-		ANJ_USERS_VERSION,
-		true
-	);
-};
-
-add_action('admin_enqueue_scripts', $anj_users_enqueue_new_user_defaults);
-add_action('network_admin_enqueue_scripts', $anj_users_enqueue_new_user_defaults);
-
-/**
- * Data level: default toolbar OFF for new users.
- *
- * Important: we only set the meta when it's missing AND it wasn't explicitly
- * set during creation (e.g., admin checked the box on user-new.php).
- */
-add_action('user_register', function ($user_id) {
-	// If the toolbar preference was explicitly submitted, respect it.
-	if (is_admin() && !empty($_POST)) {
-		if (isset($_POST['admin_bar_front']) || isset($_POST['show_admin_bar_front'])) {
-			return;
-		}
+	$user_id = (int) $user_id;
+	if ($user_id <= 0) {
+		return;
 	}
 
-	$current = get_user_meta($user_id, 'show_admin_bar_front', true);
-	if ($current === '') {
+	// Always disable the front-end admin bar for newly created users.
+	update_user_meta($user_id, 'show_admin_bar_front', 'false');
+}
+
+// Admin-created users (Users → Add New).
+add_action('edit_user_created_user', 'anj_users_force_toolbar_off_for_new_user', 20, 2);
+
+/**
+ * Admin UI: force the checkbox on Users → Add New to be unchecked.
+ *
+ * WordPress uses the *current user's* `show_admin_bar_front` as the default
+ * when rendering the Add New User form. This filter overrides that value
+ * just for that screen.
+ */
+add_filter('get_user_option_show_admin_bar_front', function ($value, $option, $user) {
+	if (!is_admin()) {
+		return $value;
+	}
+
+	global $pagenow;
+	if ($pagenow === 'user-new.php') {
+		return 'false';
+	}
+
+	return $value;
+}, 20, 3);
+
+// Multisite: new user created in Network Admin.
+add_action('wpmu_new_user', function ($user_id) {
+	$user_id = (int) $user_id;
+	if ($user_id <= 0) {
+		return;
+	}
+
+	update_user_meta($user_id, 'show_admin_bar_front', 'false');
+}, 20);
+
+// Other creation flows (custom registrations, imports, programmatic creation).
+add_action('user_register', function ($user_id) {
+	$user_id = (int) $user_id;
+	if ($user_id <= 0) {
+		return;
+	}
+
+	// Only set if missing; admin flow is handled by `edit_user_created_user` above.
+	$existing = get_user_meta($user_id, 'show_admin_bar_front', true);
+	if ($existing === '' || $existing === null) {
 		update_user_meta($user_id, 'show_admin_bar_front', 'false');
 	}
 }, 20);
