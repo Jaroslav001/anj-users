@@ -26,10 +26,16 @@ function anj_permissions_role_map(): array
         ],
         'manager' => [
             'drive.school.modify.all',
+            // Resource drives
+            'drive.resource.view.all',
+            'drive.resource.modify.all',
             'drive.page.modify.own',
             'drive.user.modify.self',
         ],
         'lector' => [
+            // Resource drives
+            'drive.resource.view.all',
+            'drive.resource.modify.own',
             'drive.user.modify.self',
         ],
     ];
@@ -54,6 +60,12 @@ function anj_permissions_vocabulary(): array
         // School drives
         'drive.school.modify.all',
         'drive.school.modify.own',
+
+        // Resource drives
+        'drive.resource.view.all',
+        'drive.resource.view.own',
+        'drive.resource.modify.all',
+        'drive.resource.modify.own',
 
         // Page drives
         'drive.page.modify.all',
